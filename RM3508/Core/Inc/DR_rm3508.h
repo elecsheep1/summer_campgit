@@ -15,6 +15,9 @@ extern float Debug_speed_4;
 extern float Debug_Pos_4 ;
 extern float speed ;
 extern float Pos ;
+
+
+extern float Pos_5 ;
 extern uint8_t mode ;
 void RM3508_text(void);
 

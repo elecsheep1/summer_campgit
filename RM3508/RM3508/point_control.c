@@ -74,7 +74,7 @@ bool Robot_Pos_Move_PID_V1 (Path_PID_V1_t *path)
 	Robot.Current_Y = Cur_Gyro.Y_Pos;
 	Robot.Target_Y = path->Target_Y[path->Point_Order];
 
-	Robot.Current_R = Cur_Gyro.Z_Pos;
+	Robot.Current_R = Cur_Gyro.Z_Pos - 90;
 	Robot.Target_R = path->Target_R[path->Point_Order];
 	
 	
@@ -116,6 +116,9 @@ bool Robot_Pos_Move_PID_V1 (Path_PID_V1_t *path)
 	return false;
 	
 }
+
+
+
 
 
 

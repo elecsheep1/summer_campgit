@@ -12,10 +12,10 @@
 #define Control_Point 4//从初始位置到目标位置总共的节点个数
 typedef struct
 {
-	uint16_t Point_Order;//当前点的编号
-	uint16_t Total_Order;//所有点的个数
-	//目标位置xyr
-	int16_t Target_X[Control_Point];
+	  uint16_t Point_Order;//当前点的编号
+	  uint16_t Total_Order;//所有点的个数
+	  //目标位置xyr
+	  int16_t Target_X[Control_Point];
     int16_t Target_Y[Control_Point];
     int16_t Target_R[Control_Point];
     //目标位置死区
@@ -79,5 +79,7 @@ typedef struct
 
 
 
+
+void Robot_Run_Point_Pid_V1();
 bool Robot_Pos_Move_PID_V1 (Path_PID_V1_t *path);
 #endif

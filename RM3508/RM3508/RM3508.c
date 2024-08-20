@@ -23,8 +23,8 @@ M3508_PID M3508_Speed_Pid[8] =//8 0 0    8 0 0
 	{.Kp = 24.3,.Ki = 0.7,.Kd = 0.09,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	//ID = 2
 	{.Kp = 25.5,.Ki = 0.5,.Kd = 0.1,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	//ID = 3
 	{.Kp = 19.45,.Ki = 0.3,.Kd = 0.08,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 4
-	/**/{.Kp = 8,.Ki = 0.f,.Kd = 0,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 5
-	{.Kp = 8,.Ki = 0,.Kd = 12,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 6
+	/**/{.Kp = 8,.Ki = 0.f,.Kd = 0,.Max = 10000,.Min = -10000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 5
+	{.Kp = 8,.Ki = 0,.Kd = 12,.Max = 10000,.Min = -10000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 6
 	{.Kp = 8,.Ki = 0,.Kd = 0,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 7
 	{.Kp = 8,.Ki = 0,.Kd = 0,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 8
 };
@@ -51,7 +51,7 @@ M3508_PID M3508_Pos_Pid[8] = //云台0.2, 0.009 0.01  底盘0.2 0 0
 };
 
 //采样时间在5~10ms
-const uint8_t RM3508_Reduction_Ratio[8] = {19,19,19,19,19,19,19,19};//电机减速比数组
+const uint8_t RM3508_Reduction_Ratio[8] = {19,19,19,19,36,36,19,19};//电机减速比数组
 
 
 

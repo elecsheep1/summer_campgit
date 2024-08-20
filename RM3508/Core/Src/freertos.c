@@ -165,9 +165,7 @@ void StartTask02(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-      RM3508_text();
-		
-		
+//      RM3508_text();
 //		Data_Init(K_filt1,G_yaw);
 //    getICM42688data(K_filt,G_yaw);
 //		ICM42688_yaw_adjust(K_filt,G_yaw);
@@ -194,9 +192,10 @@ void StartTask03(void const * argument)
 //		printf("speed_1,pos_1:%f,%f\n",Debug_speed_1,Debug_Pos_1);
 //		printf("%f,%f,%f\n",gyro.x,gyro.y,gyro.z);
 //		printf("%f,%f,%f,%f\n",Debug_speed_1,Debug_speed_2,Debug_speed_3,Debug_speed_4);
-		printf("%f,%f\n",Debug_Pos_1,Debug_Pos_2);
+//		printf("%f,%f\n",Debug_Pos_1,Debug_Pos_2);
 //		printf("%f,%f\n",Debug_Pos_3,Debug_Pos_4);
 //		printf("%f\n",yaw_adj.Yaw);
+//  		printf("%f\n",Debug_Pos_1);
     osDelay(1);
   }
   /* USER CODE END StartTask03 */ 

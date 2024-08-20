@@ -42,7 +42,8 @@ float Pos_3 = 0;
 float speed_4 = 0;
 float Pos_4 = 0;
 
-
+float speed_5 = 0;
+float Pos_5 = 0;
 /**************************模式变量***********************/
 uint8_t mode = 0;
 
@@ -98,7 +99,7 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
                 CAN_RxHeaderTypeDef RxMessage;
                 uint8_t RxData[8] = {0};
         
-                HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO1, &RxMessage, RxData);        
+                HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &RxMessage, RxData);        
 
                 if(RxMessage.IDE==CAN_ID_STD)
                 {
@@ -121,12 +122,14 @@ void RM3508_text()
     RM3508_Set_Speed(speed_2,2);
     RM3508_Set_Speed(speed_3,3);
 		RM3508_Set_Speed(speed_4,4);	
+		RM3508_Set_Speed(speed_5,5);	
 		}
 		if(mode == 1){
 			RM3508_Set_Pos(Pos_1,1);
 			RM3508_Set_Pos(Pos_2,2);	
 			RM3508_Set_Pos(Pos_3,3);
-     	RM3508_Set_Pos(Pos_4,4);	
+     	RM3508_Set_Pos(Pos_4,4);
+      RM3508_Set_Pos(Pos_5,5);				
 		}
 }
 

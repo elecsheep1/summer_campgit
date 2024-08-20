@@ -114,7 +114,7 @@ int main(void)
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 	CAN_Init(&hcan1);
-////  CAN_Init(&hcan2);
+  CAN_Init(&hcan2);
 //	HAL_TIM_Base_Start_IT (&htim5 );
 //	HAL_TIM_Base_Start_IT (&htim6 );
 //   ICM42688_Init();

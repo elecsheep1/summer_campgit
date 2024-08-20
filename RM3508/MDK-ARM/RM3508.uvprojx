@@ -1017,6 +1017,11 @@
               <FileType>1</FileType>
               <FilePath>..\RM3508\Mecanum_wheel.c</FilePath>
             </File>
+            <File>
+              <FileName>arm_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\RM3508\arm_control.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1654,9 +1659,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
           <GroupName>Middlewares/Library/DSP Library/DSP Library</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -1753,6 +1755,9 @@
               </FileOption>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>
