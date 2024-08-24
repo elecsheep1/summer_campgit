@@ -10,14 +10,10 @@
 
 #define PI 3.14
 
-typedef struct
-{
-   float ARM_Pos_5;
-   float ARM_Pos_6;
-   float ARM_Pos_7;   
-   float Arrive_Error;
-}ARM;
+extern uint8_t PUT_BALL_1;
+extern uint8_t PUT_BALL_2;
+extern uint8_t GET_BALL_1;
+extern uint8_t GET_BALL_2;
+extern uint8_t BOX;
 
-
-bool Arm_Pos_PID_V1 (ARM* arm);
 #endif
