@@ -6,10 +6,8 @@
 #include "stdbool.h"
 #include "math.h"
 #include "string.h"
-
-
 //底盘位置环PID结构体
-#define Control_Point 4//从初始位置到目标位置总共的节点个数
+#define Control_Point 2//从初始位置到目标位置总共的节点个数
 typedef struct
 {
 	  uint16_t Point_Order;//当前点的编号
@@ -74,10 +72,13 @@ typedef struct
 	float X_Pos;
 	float Y_Pos;
 	float Z_Pos;
-	
-}GYRO;
+}CUR_GYRO;
 
 
+
+extern uint8_t Point_test;
+extern Path_PID_V1_t Path_PID_Test;
+extern CUR_GYRO Cur_Gyro;
 
 
 void Robot_Run_Point_Pid_V1();

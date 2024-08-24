@@ -57,6 +57,12 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Box_Push_Pin GPIO_PIN_3
+#define Box_Push_GPIO_Port GPIOB
+#define Box__door2_Pin GPIO_PIN_4
+#define Box__door2_GPIO_Port GPIOB
+#define Box__door1_Pin GPIO_PIN_5
+#define Box__door1_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

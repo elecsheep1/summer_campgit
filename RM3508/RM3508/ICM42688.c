@@ -986,23 +986,23 @@ for (uint16_t i = 0; i < 2000; i++) // 采集前2000个数据
 	{
 		// Sample_Array[i] = ICM_Read_FIFO(hspi, IMU);
 		// printf("%f, %f\n", Sample_Array[i], Kalman_Filter(&Gyro_K_Flt_Init, Sample_Array[i]));
-		G_yaw->OmigaX = KalmanFilter (K_filt,getGyroDataX());
-	  G_yaw->OmigaY = KalmanFilter (K_filt,getGyroDataY());
+//		G_yaw->OmigaX = KalmanFilter (K_filt,getGyroDataX());
+//	  G_yaw->OmigaY = KalmanFilter (K_filt,getGyroDataY());
     G_yaw->OmigaZ = KalmanFilter (K_filt,getGyroDataZ());
-		
-		G_yaw->AccelX = KalmanFilter (K_filt,getAccelDataX());
-	  G_yaw->AccelY = KalmanFilter (K_filt,getAccelDataY());
-	  G_yaw->AccelZ = KalmanFilter (K_filt,getAccelDataZ());
-		G_yaw->Velocity_X  = KalmanFilter (K_filt,G_yaw->Velocity_X);
+//		
+//		G_yaw->AccelX = KalmanFilter (K_filt,getAccelDataX());
+//	  G_yaw->AccelY = KalmanFilter (K_filt,getAccelDataY());
+//	  G_yaw->AccelZ = KalmanFilter (K_filt,getAccelDataZ());
+//		G_yaw->Velocity_X  = KalmanFilter (K_filt,G_yaw->Velocity_X);
 		Sample_Array[i] =KalmanFilter (K_filt,G_yaw->OmigaZ);  //w初始化
 		
-		Sample_Array1[i] =KalmanFilter (K_filt,G_yaw->AccelX);  //x轴加速度初始化
+//		Sample_Array1[i] =KalmanFilter (K_filt,G_yaw->AccelX);  //x轴加速度初始化
 //		Sample_Array2[i] =KalmanFilter (K_filt,G_yaw->AccelY);  //y轴加速度初始化
 //		HAL_Delay(0);
 	}
 
 	arm_mean_f32(Sample_Array, 2000, &G_yaw->OmigaOffset); // 消除角速度的直流偏移
-	arm_mean_f32(Sample_Array1, 2000, &G_yaw->AccelXOffset); // 消除x加速度的直流偏移
+//	arm_mean_f32(Sample_Array1, 2000, &G_yaw->AccelXOffset); // 消除x加速度的直流偏移
 //	arm_mean_f32(Sample_Array2, 2000, &G_yaw->OmigaOffset); // 消除y加速度的直流偏移
 }
 
@@ -1014,13 +1014,13 @@ for (uint16_t i = 0; i < 2000; i++) // 采集前2000个数据
   */
 void getICM42688data(Kal_Filter* K_filt,get_yaw *G_yaw)
 {
-	G_yaw->OmigaX = KalmanFilter (K_filt,getGyroDataX());
-	G_yaw->OmigaY = KalmanFilter (K_filt,getGyroDataY());
+//	G_yaw->OmigaX = KalmanFilter (K_filt,getGyroDataX());
+//	G_yaw->OmigaY = KalmanFilter (K_filt,getGyroDataY());
 	G_yaw->OmigaZ = KalmanFilter (K_filt,getGyroDataZ());
 	
-	G_yaw->AccelX = KalmanFilter (K_filt,getAccelDataX());
-	G_yaw->AccelY = KalmanFilter (K_filt,getAccelDataY());
-	G_yaw->AccelZ = KalmanFilter (K_filt,getAccelDataZ());
+//	G_yaw->AccelX = KalmanFilter (K_filt,getAccelDataX());
+//	G_yaw->AccelY = KalmanFilter (K_filt,getAccelDataY());
+//	G_yaw->AccelZ = KalmanFilter (K_filt,getAccelDataZ());
 //	if(gyro->x<=gyro->Dead_field )
 //	{
 //		gyro->x = 0;
@@ -1087,9 +1087,9 @@ void ICM42688_yaw_adjust(Kal_Filter* K_Filt,get_yaw *G_yaw)
 
 	/*更新角度*/
 	if (G_yaw->OmigaZ + G_yaw->LastOmigaZ > 0.0f)
-		G_yaw->Yaw += (G_yaw->OmigaZ + G_yaw->LastOmigaZ) * 0.0001f * POSI_SCALE;
+		G_yaw->Yaw += (G_yaw->OmigaZ + G_yaw->LastOmigaZ) * 0.0005f * POSI_SCALE;
 	else
-		G_yaw->Yaw += (G_yaw->OmigaZ + G_yaw->LastOmigaZ) * 0.0001f * NEGA_SCALE;
+		G_yaw->Yaw += (G_yaw->OmigaZ + G_yaw->LastOmigaZ) * 0.0005f * NEGA_SCALE;
 	
 	
 	

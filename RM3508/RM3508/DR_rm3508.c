@@ -28,6 +28,12 @@ float Debug_Pos_3 = 0;
 
 float Debug_speed_4 = 0;
 float Debug_Pos_4 = 0;
+
+float Arm_Pos_5 = 0;
+
+float Arm_Pos_6 = 0;
+
+float Arm_Pos_7 = 0;
 /**************************速度/角度变量***********************/
 //注意速度设置的范围是-15000~15000
 float speed_1 = 0;
@@ -108,6 +114,8 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
                                 RM3508_Get_Feedback(RxMessage.StdId, RxData);
                         }
                 }
+								
+								
                 /*自己写解析函数*/
 								
 								

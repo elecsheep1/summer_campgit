@@ -61,6 +61,7 @@ rm3508\main.o: ../RM3508/ICM42688.h
 rm3508\main.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdbool.h
 rm3508\main.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdio.h
 rm3508\main.o: ../RM3508/filt.h
+rm3508\main.o: ../RM3508/mySerial.h
 rm3508\main.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\math.h
 rm3508\main.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdarg.h
 rm3508\main.o: ../Middlewares/ST/ARM/DSP/Inc/arm_math.h

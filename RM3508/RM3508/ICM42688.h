@@ -1268,8 +1268,8 @@ extern sINTSource_t  INTSource;
 #define SAMPLE_NUM 20    //采样数
 //#define POSI_SCALE (0.99767576f) // 正转系数
 //#define NEGA_SCALE (0.99966605f) // 反转系数
-#define POSI_SCALE (3.02416392f) // 正转系数
-#define NEGA_SCALE (3.03160726f) // 反转系数
+#define POSI_SCALE (1.00192215f) // 正转系数
+#define NEGA_SCALE (0.99808399f) // 反转系数
 
 
 

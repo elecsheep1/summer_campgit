@@ -22,6 +22,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "i_Serial.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,6 +62,7 @@ extern SPI_HandleTypeDef hspi2;
 extern TIM_HandleTypeDef htim5;
 extern TIM_HandleTypeDef htim6;
 extern DMA_HandleTypeDef hdma_uart5_rx;
+extern UART_HandleTypeDef huart5;
 extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN EV */
@@ -247,6 +249,20 @@ void TIM5_IRQHandler(void)
   /* USER CODE BEGIN TIM5_IRQn 1 */
 
   /* USER CODE END TIM5_IRQn 1 */
+}
+
+/**
+  * @brief This function handles UART5 global interrupt.
+  */
+void UART5_IRQHandler(void)
+{
+  /* USER CODE BEGIN UART5_IRQn 0 */
+
+  /* USER CODE END UART5_IRQn 0 */
+  HAL_UART_IRQHandler(&huart5);
+  /* USER CODE BEGIN UART5_IRQn 1 */
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart5, Uart1_RxBuff1, lengthofdata);
+  /* USER CODE END UART5_IRQn 1 */
 }
 
 /**

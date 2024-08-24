@@ -41,6 +41,7 @@
 "rm3508\myserial.o"
 "rm3508\mecanum_wheel.o"
 "rm3508\arm_control.o"
+"rm3508\i_serial.o"
 "rm3508\croutine.o"
 "rm3508\event_groups.o"
 "rm3508\list.o"

@@ -3,9 +3,11 @@
 #include "tim.h"
 #include <string.h>
 #include <stdlib.h>
+#include "i_Serial.h"
 
 #include "RM3508.h"
 #include "Mecanum_wheel.h"
+#include "point_control.h"
 //#include "TFminiPlus.h"
 
 /* 初始化 */
@@ -66,7 +68,6 @@ void Serial_TIM_Period_Callback(TIM_HandleTypeDef *htim)
 		HAL_TIM_Base_Stop_IT(TIM_PORT);
 		__HAL_TIM_SET_COUNTER(TIM_PORT, 0);
 	}
-	
 	if(htim == TIM2_PORT){
 		Uart2_RxFlag = 1;
 		HAL_TIM_Base_Stop_IT(TIM2_PORT);
@@ -133,12 +134,23 @@ void ArrangeSerialList(){
 		{
 			nohead_flag = HEAD;
 		}
-		
+		else if(sign == 'q')
+		{
+			Point_test = 1;
+		}
 		memset(Uart2_RxBuff,0x00,sizeof(Uart2_RxBuff));//读完清空以防干扰下一组数据
 		Uart2_Rx_Cnt = 0;
 		Uart2_RxFlag = 0;
 //		printf("lr,lp,rr,rp:%d,%d,%d,%d\n", left_row, left_pitch, right_row, right_pitch);
 	}
-		
+	
+if(Uart1_RxFlag){        //视觉串口传递数据
+        int ball_receive = 0;
+        sscanf((char *)Uart1_RxBuff, "%f %f %f", &Cur_Gyro.X_Pos, &Cur_Gyro.Y_Pos, &Cur_Gyro.Z_Pos);
+ 
+    }
+  memset(Uart1_RxBuff,0x00,sizeof(Uart1_RxBuff));//读完清空以防干扰下一组数据
+  Uart1_Rx_Cnt = 0;
+  Uart1_RxFlag = 0;
 }
 

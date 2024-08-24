@@ -12,12 +12,60 @@
 
 #define PI 3.14
 
+//标志位
+ uint8_t Point_test = 0;
+
+
+
 float Cur_Gyro_ZPos = 0;//偏航角
 float Point_Err = 0;//与目标点距离误差，用于判断是否到点
 float Point_Err_r = 0;//与目标点角度误差，用于判断是否到点
 
+Path_PID_V1_t Path_PID_Test;
 Robot_t Robot;
-GYRO Cur_Gyro;
+CUR_GYRO Cur_Gyro;
+/*********************************************************************************
+ *@  name      : Point_Init
+ *@  function  : 初始化点位函数
+ *@  input     : none
+ *@  output    : none
+ *********************************************************************************/
+void Point_Init()
+{
+	Path_PID_Test.Point_Order = 0;//当前点的编号
+	Path_PID_Test.Total_Order = 1;//所有点的个数
+	  //目标位置xyr
+	Path_PID_Test.Target_X[0] = 0;
+  Path_PID_Test.Target_Y[0] = 0;
+  Path_PID_Test.Target_R[0] = 0;
+    //目标位置死区
+  Path_PID_Test.Arrive_Err[0] = 0.01;
+    //PID相关参数
+  Path_PID_Test.X_Kp[0] = 300;
+  Path_PID_Test.X_Ki[0] = 0.5;
+  Path_PID_Test.X_Kd[0] = 0.02;
+
+  Path_PID_Test.Y_Kp[0] = 300;
+  Path_PID_Test.Y_Ki[0] = 0.5;
+  Path_PID_Test.Y_Kd[0] = 0.02;
+
+  Path_PID_Test.R_Kp[0] = 0;
+  Path_PID_Test.R_Ki[0] = 0;
+  Path_PID_Test.R_Kd[0] = 0;
+    //输出限幅
+  Path_PID_Test.X_Max[0] = 0;
+  Path_PID_Test.Y_Max[0] = 0;
+  Path_PID_Test.R_Max[0] = 0;
+    //积分限幅
+  Path_PID_Test.X_I_Limit[0] = 0;
+	Path_PID_Test.Y_I_Limit[0] = 0;
+	Path_PID_Test.R_I_Limit[0] = 0;
+}
+
+
+
+
+
 /*********************************************************************************
  *@  name      : Robot_Run_Point_Pid_V1()
  *@  function  : 跑点函数

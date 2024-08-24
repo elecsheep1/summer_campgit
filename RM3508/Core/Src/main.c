@@ -33,6 +33,7 @@
 #include "DR_rm3508.h"
 //#include "rgb.h"
 #include "ICM42688.h"
+#include "mySerial.h"
 
 #include "math.h"
 #include "stdio.h"
@@ -115,11 +116,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	CAN_Init(&hcan1);
   CAN_Init(&hcan2);
-//	HAL_TIM_Base_Start_IT (&htim5 );
+
 //	HAL_TIM_Base_Start_IT (&htim6 );
 //   ICM42688_Init();
 //   Data_Init(K_filt1,G_yaw);
-
+//	 HAL_TIM_Base_Start_IT (&htim5 );
+//	 mySerial_Init();
 
   /* USER CODE END 2 */
 
@@ -218,13 +220,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 1 */
 	if( htim->Instance == htim5.Instance ){
-//		if(mode == 0){
-//    RM3508_Set_Speed(speed,1);	
-//		}
-//		if(mode == 1){
-//			RM3508_Set_Pos(Pos,1);
-//		}
-////	  printf("%f\n",speed);
+      getICM42688data(K_filt,G_yaw);
+      ICM42688_yaw_adjust(K_filt,G_yaw);
 	}
 	
 	if( htim->Instance == htim6.Instance ){

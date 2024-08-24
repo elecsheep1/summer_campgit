@@ -34,3 +34,5 @@ rm3508\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 rm3508\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 rm3508\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 rm3508\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
+rm3508\stm32f4xx_it.o: ../Core/Inc/i_Serial.h
+rm3508\stm32f4xx_it.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdio.h

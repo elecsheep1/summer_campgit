@@ -25,8 +25,8 @@ M3508_PID M3508_Speed_Pid[8] =//8 0 0    8 0 0
 	{.Kp = 19.45,.Ki = 0.3,.Kd = 0.08,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 4
 	/**/{.Kp = 8,.Ki = 0.f,.Kd = 0,.Max = 10000,.Min = -10000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 5
 	{.Kp = 8,.Ki = 0,.Kd = 12,.Max = 10000,.Min = -10000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 6
-	{.Kp = 8,.Ki = 0,.Kd = 0,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 7
-	{.Kp = 8,.Ki = 0,.Kd = 0,.Max = 16000,.Min = -16000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 8
+	{.Kp = 8,.Ki = 0,.Kd = 0,.Max = 10000,.Min = -10000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 7
+	{.Kp = 8,.Ki = 0,.Kd = 0,.Max = 10000,.Min = -10000,.IntegralLimit = 1000,.DeadBand = 10},	 	//ID = 8
 };
 /*********************************************************************************
 位置PID设置： Kp    Ki     Kd
@@ -38,20 +38,18 @@ M3508_PID M3508_Speed_Pid[8] =//8 0 0    8 0 0
 M3508_PID M3508_Pos_Pid[8] = //云台0.2, 0.009 0.01  底盘0.2 0 0
 
 {
-	{.Kp = 0.12,.Ki =0.004,.Kd = 0.001,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 100},	//ID = 10
-	{.Kp = 0.11,.Ki = 0.001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 100},	//ID = 2
-	{.Kp = 0.11,.Ki = 001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 0},	//ID = 3
-	{.Kp = 0.11,.Ki = 0.001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 0},	//ID = 4
-	/**/{.Kp = 0.1,.Ki = 0,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 100},	//ID = 5// 
-	//{.Kp = 0.7,.Ki = 0.05,.Kd = 5,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 0},	//ID = 5
-	//{.Kp = 0.7,.Ki = 0,.Kd = 10,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 0},	//ID = 5
-	{.Kp = 0.16,.Ki = 0.001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 0},	//ID = 6
-	{.Kp = 0.5,.Ki = 0.005,.Kd = 10,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 200},	//ID = 7
-	{.Kp = 3.2,.Ki = 0.005,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 20000,.DeadBand = 2000}	//ID = 8   8 0.001 20
+	{.Kp = 0.3,.Ki =0.004,.Kd = 0.001,.Max = 14000,.Min = -14000,.IntegralLimit = 10000,.DeadBand = 200},	//ID = 10
+	{.Kp = 0.3,.Ki = 0.001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 10000,.DeadBand = 200},	//ID = 2
+	{.Kp = 0.3,.Ki = 001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 10000,.DeadBand = 200},	//ID = 3
+	{.Kp = 0.3,.Ki = 0.001,.Kd = 0,.Max = 14000,.Min = -14000,.IntegralLimit = 10000,.DeadBand = 200},	//ID = 4
+	/**/{.Kp = 0.3,.Ki = 0.01,.Kd = 0,.Max = 4000,.Min = -4000,.IntegralLimit = 10000,.DeadBand = 300},	//ID = 5// 
+	{.Kp = 0.3,.Ki = 0.01,.Kd = 0,.Max = 1500,.Min = -1500,.IntegralLimit = 10000,.DeadBand = 300},	//ID = 6
+	{.Kp = 0.3,.Ki = 0.01,.Kd = 0,.Max = 1000,.Min = -1000,.IntegralLimit = 10000,.DeadBand = 300},	//ID = 7
+	{.Kp = 0.3,.Ki = 0.005,.Kd = 0,.Max = 1000,.Min = -1000,.IntegralLimit = 10000,.DeadBand = 2000}	//ID = 8   8 0.001 20
 };
 
 //采样时间在5~10ms
-const uint8_t RM3508_Reduction_Ratio[8] = {19,19,19,19,36,36,19,19};//电机减速比数组
+const uint8_t RM3508_Reduction_Ratio[8] = {19,19,19,19,36,19,36,19};//电机减速比数组
 
 
 

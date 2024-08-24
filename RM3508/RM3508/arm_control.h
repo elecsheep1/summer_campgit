@@ -8,11 +8,13 @@
 #include "string.h"
 
 
+#define PI 3.14
+
 typedef struct
 {
-   float A3508_Pos;
-   float A2006_Pos_1;
-   float A2006_Pos_2;   
+   float ARM_Pos_5;
+   float ARM_Pos_6;
+   float ARM_Pos_7;   
    float Arrive_Error;
 }ARM;
 
