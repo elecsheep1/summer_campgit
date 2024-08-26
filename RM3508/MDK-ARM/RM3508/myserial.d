@@ -39,10 +39,9 @@ rm3508\myserial.o: ../Core/Inc/usart.h
 rm3508\myserial.o: ../Core/Inc/tim.h
 rm3508\myserial.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\string.h
 rm3508\myserial.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdlib.h
-rm3508\myserial.o: ..\RM3508\i_Serial.h
 rm3508\myserial.o: ..\RM3508\RM3508.h
 rm3508\myserial.o: ../Core/Inc/can.h
 rm3508\myserial.o: ..\RM3508\Mecanum_wheel.h
-rm3508\myserial.o: ..\RM3508\point_control.h
+rm3508\myserial.o: ..\RM3508\arm_control.h
 rm3508\myserial.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdbool.h
 rm3508\myserial.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\math.h

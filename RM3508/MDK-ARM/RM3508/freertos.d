@@ -59,4 +59,6 @@ rm3508\freertos.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\std
 rm3508\freertos.o: ../RM3508/filt.h
 rm3508\freertos.o: ../RM3508/point_control.h
 rm3508\freertos.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\math.h
+rm3508\freertos.o: ../RM3508/arm_control.h
+rm3508\freertos.o: ../Core/Inc/gpio.h
 rm3508\freertos.o: D:\changyongaaa\danpianji\stm32c\ARM\ARMCC\Bin\..\include\stdarg.h

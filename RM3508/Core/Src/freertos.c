@@ -69,6 +69,7 @@ osThreadId myPutBall2Handle;
 osThreadId myGetBall1Handle;
 osThreadId myGetBall2Handle;
 osThreadId myJudgeHandle;
+osThreadId mySetM567Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -83,6 +84,7 @@ void StartPutBall2(void const * argument);
 void StartGetBall1(void const * argument);
 void StartGetBall2(void const * argument);
 void StartJudge(void const * argument);
+void StartSetM567(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -161,6 +163,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(myJudge, StartJudge, osPriorityAboveNormal, 0, 128);
   myJudgeHandle = osThreadCreate(osThread(myJudge), NULL);
 
+  /* definition and creation of mySetM567 */
+  osThreadDef(mySetM567, StartSetM567, osPriorityAboveNormal, 0, 128);
+  mySetM567Handle = osThreadCreate(osThread(mySetM567), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -231,17 +237,18 @@ void StartTask02(void const * argument)
 /* USER CODE END Header_StartReadyPos */
 void StartReadyPos(void const * argument)
 {
-  /* USER CODE BEGIN StartPutBall1 */
+  /* USER CODE BEGIN StartReadyPos */
+
   /* Infinite loop */
-  for(;;)
+   for(;;)
   {
-		//机械臂放球
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(80 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
+		//机械臂预备位置
+			 M5_Pos = M5_READY * 1638.4; //抓取方向电机
+       M6_Pos = M6_READY * 1297; //大臂电机抓取位置
+       M7_Pos = M7_READY * 1638.4; //小臂电机
        osDelay(1);
   }
-  /* USER CODE END StartPutBall1 */
+  /* USER CODE END StartReadyPos */
 }
 
 /* USER CODE BEGIN Header_StartPutBall1 */
@@ -255,27 +262,26 @@ void StartPutBall1(void const * argument)
 {
   /* USER CODE BEGIN StartPutBall1 */
   /* Infinite loop */
-  for(;;)
+   for(;;)
   {
 		vTaskSuspend(myPutBall1Handle); //暂停任务，等待唤醒
 		//机械臂放球
+		M5_Pos = -90 * 1638.4; //抓取方向电机
+    M6_Pos = M6_PUT_1 * 1297; //大臂电机抓取位置
+    M7_Pos = M7_PUT_1 * 1638.4; //小臂电机
+		osDelay(5);
 		while(1)
 		{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
-			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀打开放球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
-				/***********************/
-				break;
+				if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+					break;
+				osDelay(1);
 		 }
-			vTaskResume(myReadyPosHandle);//预备位置
-      osDelay(1);
+		osDelay(300);
+		HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀打开放球
+		osDelay(700);
+		vTaskResume(myReadyPosHandle);//预备位置
+		PUT_BALL_1 = 0;
+    osDelay(1);
   }
   /* USER CODE END StartPutBall1 */
 }
@@ -295,23 +301,21 @@ void StartPutBall2(void const * argument)
   {
     vTaskSuspend(myPutBall2Handle); //暂停任务，等待唤醒
 		//机械臂放球
+		M5_Pos = M5_PUT_2 * 1638.4; //抓取方向电机
+    M6_Pos = M6_PUT_2 * 1297; //大臂电机抓取位置
+    M7_Pos = M7_PUT_2 * 1638.4; //小臂电机
 		while(1)
 		{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(90 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
-			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀打开放球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
-				/***********************/
-				break;
+				if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+					break;
+				osDelay(1);
 		}
-			vTaskResume(myReadyPosHandle);//预备位置
-      osDelay(1);
+		osDelay(300);
+		HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀打开放球
+		osDelay(700);
+		vTaskResume(myReadyPosHandle);//预备位置
+		PUT_BALL_2 = 0;
+    osDelay(1);
 	}
   /* USER CODE END StartPutBall2 */
 }
@@ -325,31 +329,30 @@ void StartPutBall2(void const * argument)
 /* USER CODE END Header_StartGetBall1 */
 void StartGetBall1(void const * argument)
 {
-  /* USER CODE BEGIN StartPutBall2 */
+  /* USER CODE BEGIN StartGetBall1 */
   /* Infinite loop */
-  for(;;)
+ for(;;)
   {
     vTaskSuspend(myGetBall1Handle); //暂停任务，等待唤醒
 		//机械臂放球
+		M5_Pos = -90 * 1638.4; //抓取方向电机
+    M6_Pos = M6_GET_1 * 1297; //大臂电机抓取位置
+    M7_Pos = M7_GET_1 * 1638.4; //小臂电机
+		osDelay(5);
 		while(1)
 		{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
-			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀关闭抓球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
-				/***********************/
-				break;
-		}
-			vTaskResume(myReadyPosHandle);//预备位置
-      osDelay(1);
+				if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+					break;
+				osDelay(1);
+		 }
+		osDelay(300);
+		HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀打开放球
+		osDelay(700);
+		vTaskResume(myReadyPosHandle);//预备位置
+		GET_BALL_1 = 0;
+    osDelay(1);
 	}
-  /* USER CODE END StartPutBall2 */
+  /* USER CODE END StartGetBall1 */
 }
 
 /* USER CODE BEGIN Header_StartGetBall2 */
@@ -361,103 +364,102 @@ void StartGetBall1(void const * argument)
 /* USER CODE END Header_StartGetBall2 */
 void StartGetBall2(void const * argument)
 {
-  /* USER CODE BEGIN StartPutBall2 */
+  /* USER CODE BEGIN StartGetBall2 */
   /* Infinite loop */
   for(;;)
   {
-    vTaskSuspend(myGetBall1Handle); //暂停任务，等待唤醒
+    vTaskSuspend(myGetBall2Handle); //暂停任务，等待唤醒
 		//机械臂放球
-		while(1)
-		{
-			
 			//第一个球
 			if(BOX == 5)
 			{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
+			M5_Pos = M5_GET1_2 * 1638.4; //抓取方向电机
+			M6_Pos = M6_GET1_2 * 1297; //大臂电机抓取位置
+			M7_Pos = M7_GET1_2 * 1638.4; //小臂电机
+			while(1)
 			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀关闭抓球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
+					if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+						break;
+					osDelay(1);
+		  }
+			osDelay(300);
+			HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀关闭抓球
+			osDelay(700);
 		  }
 			
 			//第二个球
-			if(BOX == 4 )
+			if(BOX == 4)
 			{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
+			M5_Pos = M5_GET1_2 * 1638.4; //抓取方向电机
+			M6_Pos = M6_GET1_2 * 1297; //大臂电机抓取位置
+			M7_Pos = M7_GET1_2 * 1638.4; //小臂电机
+			while(1)
 			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀关闭抓球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
+					if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+						break;
+					osDelay(1);
+		  }
+			osDelay(300);
+			HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀关闭抓球
+			osDelay(700);
 		  }
 			
 			//第三个球
-			if(BOX == 3 )
+			if(BOX == 3)
 			{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
+			M5_Pos = M5_GET1_2 * 1638.4; //抓取方向电机
+			M6_Pos = M6_GET1_2 * 1297; //大臂电机抓取位置
+			M7_Pos = M7_GET1_2 * 1638.4; //小臂电机
+			while(1)
 			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀关闭抓球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
+					if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+						break;
+					osDelay(1);
+		  }
+			osDelay(300);
+			HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀关闭抓球
+			osDelay(700);
 		  }
 			
 			//第四个球
-			if(BOX == 2 )
+			if(BOX == 2)
 			{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
+			M5_Pos = M5_GET1_2 * 1638.4; //抓取方向电机
+			M6_Pos = M6_GET1_2 * 1297; //大臂电机抓取位置
+			M7_Pos = M7_GET1_2 * 1638.4; //小臂电机
+			while(1)
 			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀关闭抓球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
+					if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+						break;
+					osDelay(1);
+		  }
+			osDelay(300);
+			HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀关闭抓球
+			osDelay(700);
 		  }
 			
 			//第五个球
-			if(BOX == 1 )
+			if(BOX == 1)
 			{
-			 RM3508_Set_Pos(-90 * 3276.8, 5); //抓取方向电机
-       RM3508_Set_Pos(168 * 1297, 6); //大臂电机抓取位置
-       RM3508_Set_Pos(30 * 1638.4, 7); //小臂电机
-			if(M3508_Pos_Pid[4].Err <= 10 && M3508_Pos_Pid[5].Err <= 10 && M3508_Pos_Pid[6].Err <= 10) //到达位置跳出
+			M5_Pos = M5_GET1_2 * 1638.4; //抓取方向电机
+			M6_Pos = M6_GET1_2 * 1297; //大臂电机抓取位置
+			M7_Pos = M7_GET1_2 * 1638.4; //小臂电机
+			while(1)
 			{
-				/*******开关电磁阀*******/
-				HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,0);//电磁阀关闭抓球
-				//放球后电磁阀保持打开，也就是爪子打开，方便取球
-				osDelay(100);
-			}
+					if(fabs(M3508_Pos_Pid[4].Err) <= 10 && fabs(M3508_Pos_Pid[5].Err) <= 10 && fabs(M3508_Pos_Pid[6].Err) <= 10) //到达位置跳出
+						break;
+					osDelay(1);
 		  }
-			
-			if(BOX == 1 )
-			{
-				BOX = 5;
-			}
-			
-				/***********************/
-				break;
-		}
+			osDelay(300);
+			HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀关闭抓球
+			osDelay(700);
+		  }
 			vTaskResume(myReadyPosHandle);//预备位置
 		  BOX--;
+		  GET_BALL_2 = 0;
       osDelay(1);
 	}
-  /* USER CODE END StartPutBall2 */
+  /* USER CODE END StartGetBall2 */
 }
 
 /* USER CODE BEGIN Header_StartJudge */
@@ -474,20 +476,56 @@ void StartJudge(void const * argument)
   for(;;)
   {
 		if(PUT_BALL_1)
+		{
 			vTaskSuspend(myReadyPosHandle);
 			vTaskResume(myPutBall1Handle);
+		}
     if(PUT_BALL_2)
+		{
 			vTaskSuspend(myReadyPosHandle);
 			vTaskResume(myPutBall2Handle);
+		}
     if(GET_BALL_1)
+		{
 			vTaskSuspend(myReadyPosHandle);
 			vTaskResume(myGetBall1Handle);
+		}
 		if(GET_BALL_2)
+		{
 			vTaskSuspend(myReadyPosHandle);
 			vTaskResume(myGetBall2Handle);
+		}
     osDelay(1);
   }
   /* USER CODE END StartJudge */
+}
+
+/* USER CODE BEGIN Header_StartSetM567 */
+/**
+* @brief Function implementing the mySetM567 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSetM567 */
+void StartSetM567(void const * argument)
+{
+  /* USER CODE BEGIN StartSetM567 */
+	
+	RM3508_Set_NowPos(5, 0);
+	RM3508_Set_NowPos(6, 0);
+	RM3508_Set_NowPos(7, 0);
+//	 HAL_GPIO_WritePin (Arm_GPIO_Port ,Arm_Pin ,1);//电磁阀关闭抓球
+	
+  /* Infinite loop */
+  for(;;)
+  {
+
+			RM3508_Set_Pos(M5_Pos, 5); //抓取方向电机
+			RM3508_Set_Pos(M6_Pos, 6); //大臂电机
+			RM3508_Set_Pos(M7_Pos, 7); //小臂电机
+      osDelay(1);
+  }
+  /* USER CODE END StartSetM567 */
 }
 
 /* Private application code --------------------------------------------------*/

@@ -116,6 +116,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	CAN_Init(&hcan1);
   CAN_Init(&hcan2);
+	mySerial_Init();
 
 //	HAL_TIM_Base_Start_IT (&htim6 );
 //   ICM42688_Init();
